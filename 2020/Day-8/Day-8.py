@@ -1,3 +1,5 @@
+# Part 2 doesn't work atm
+
 with open('day8.txt') as instructions_file:
     inst = instructions_file.readlines()
 
