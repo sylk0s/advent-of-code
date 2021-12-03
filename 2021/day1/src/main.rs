@@ -10,8 +10,6 @@ fn main() {
 
     println!("The answer to part 1 is {}", part_one(lines));
     println!("The answer to part 2 is {}", part_two(lines2));
-
-
 }
 
 fn part_one(lines: Vec<&str>) -> u32 {
@@ -34,7 +32,6 @@ fn part_one(lines: Vec<&str>) -> u32 {
     count
 }
 
-// doesnt work yet
 fn part_two(lines: Vec<&str>) -> u32 {
     let mut window_count = 0;
     let mut count = 0;
@@ -43,10 +40,15 @@ fn part_two(lines: Vec<&str>) -> u32 {
         if window_count < 3 {
             window_count = window_count + 1;
         } else {
-            if lines[n].trim().parse::<String>().expect("Parsing error") >  lines[n-3].trim().parse::<String>().expect("Parsing error") {
+            //im not entirely understanding why this works, shouldnt this be able to simplify to t1>t4?
+            let t1: u32 = lines[n].trim().parse::<u32>().expect("Parsing error");
+            let t2: u32 = lines[n-1].trim().parse::<u32>().expect("Parsing error");
+            let t3: u32 = lines[n-2].trim().parse::<u32>().expect("Parsing error");
+            let t4: u32 = lines[n-3].trim().parse::<u32>().expect("Parsing error");
+            if t1+t2+t3 > t2+t3+t4  {
                 count = count + 1; // is there no ++?
             }
         }
-    }   
+    }
     count
 }
