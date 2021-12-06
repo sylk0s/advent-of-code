@@ -15,23 +15,15 @@ fn part_one(lines: &Vec<&str>) -> u32 {
     gamma*(gamma^0b111111111111)
 }
 
+// doesnt work yet
 fn part_two(lines: &Vec<&str>) -> u32 {
-    let bits = find_common_bits();
-    let mut possible_solutions = lines.clone();
+    let bits = find_common_bits(&lines);
 
-    for i in 0..lines[0].len()  {
-        for line in possible_solutions {
-            if line
-        }
-    }
+    let oxygen = last_meeting_criteria(lines, bits);
+    let co2 = last_meeting_criteria(lines, bits^0b111111111111);
 
-    //110110110111
-    //001001000010
-
-    //110110111100
-    //001001000011
-
-    //0b110110110111*0b001001000010
+    //too high
+    oxygen*co2
 }
 
 fn find_common_bits(lines: &Vec<&str>) -> u32 {
@@ -56,4 +48,26 @@ fn find_common_bits(lines: &Vec<&str>) -> u32 {
     }
 
     common_bits
+}
+
+fn last_meeting_criteria(lines: &Vec<&str>, bits: u32) -> u32 {
+    let mut possible_solutions = lines.clone();
+    let line_length = lines[0].len();
+
+    for i in 0..line_length  {
+        let mut remove_queue = Vec::<usize>::new();
+        for n in 0..possible_solutions.len() {
+            let bin = u32::from_str_radix(possible_solutions[n].trim(), 2).unwrap();
+            if bin & 1<<(line_length-i-1) & bits == 0 {
+                if possible_solutions.len()-remove_queue.len() == 1 {
+                    return u32::from_str_radix(possible_solutions[n].trim(), 2).unwrap();
+                }
+                remove_queue.push(n);
+            }
+        }
+        for item in remove_queue {
+            possible_solutions.remove(item);
+        }
+    }
+    u32::from_str_radix(possible_solutions[0].trim(), 2).unwrap()
 }
