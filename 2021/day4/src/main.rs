@@ -37,6 +37,9 @@ fn part_one(lines: &Vec<&str>) -> u32 {
     0
 }
 
+// idea invert order of iteration as to not repeat boards
+// consolidate into main function and just parse winning_boards
+// also make the code better lol
 fn part_two(lines: &Vec<&str>) -> u32 {
     let called_nums_str: Vec<&str> = lines[0].split(',').collect();
     let mut winning_boards = Vec::<u32>::new();
