@@ -23,6 +23,7 @@ fn part_one(lines: &Vec<&str>) -> u32 {
                     count += 1;
                 }
                 if count > 1 {
+                    // println!("Found intersection at ({},{})",i,j);
                     total_count += 1;
                     break;
                 }
@@ -64,10 +65,10 @@ impl Line {
 
 impl Line { // doesnt wanna work unless i do this grrrr
     fn point_exists(&self,px:u32,py:u32) -> bool {
-        if self.x1 == self.x2 {
+        if self.x1 == self.x2 && self.x1 == px {
             return is_between(self.y1,self.y2,py);
         }
-        if self.y1 == self.y2 {
+        if self.y1 == self.y2 && self.y1 == py {
             return is_between(self.x1,self.x2,px);
         }
         false
