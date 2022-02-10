@@ -11,12 +11,25 @@ fn main() {
 }
 
 fn part_one(lines: &Vec<&str>) -> i32 {
-    let mut end_line: Vec<Vec<&str>> = Vec::new();
+    
+    // transforms lines into each seperate code
+    let mut end_line: Vec<&str> = Vec::new();
     for line in lines {
         let second_half: Vec<&str> = line.split("|").collect();
         let codes = second_half[1];
-        let codes_vec: Vec<&str> = second_half.split(" ").collect();
-        end_line.push(codes_vec.clone()); 
+        let codes_vec: Vec<&str> = codes.split(" ").collect();
+        for i in 0..codes_vec.len() {
+            end_line.push(codes_vec[i].clone()); 
+        }
     }
-    0
+
+    // checks the codes for specific lengths
+    let mut count = 0;
+    for code in end_line {
+        println!("{} - len of {}",code,code.chars().count());
+        if [2,3,4,7].contains(&code.chars().count()) {
+            count += 1;
+        } 
+    }
+    count
 }
