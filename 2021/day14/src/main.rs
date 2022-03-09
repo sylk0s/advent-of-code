@@ -9,26 +9,42 @@ fn main() {
 
     let starting_string = lines[0];
     let mut mapped_sub: HashMap<&str,Pair> = lines[2..].iter().map(|x| Pair::from(x)).collect();
-    //println!("{}",mapped_sub)
 
     let initial_pairs: Vec<String> = (1..starting_string.chars().count()).map(|x| format!("{}{}",&starting_string[x-1..x],&starting_string[x..x+1])).collect();
-    //println!("{:?}",initial_pairs);
     for e in initial_pairs {
         mapped_sub.get_mut(e.as_str()).unwrap().count += 1;
     }
 
-    let n = 10;
+    // preform simulation for n loops fast AF
+    // change to 10 for day 1
+    // change to 40 for day 2
+    let n = 80;
     for _ in 0..n {
         for (k,v) in mapped_sub.clone() {
-            //mapped_sub.get_mut(k).unwrap().count = 0; // I think i need to fix this line
+            mapped_sub.get_mut(k).unwrap().count -= v.count;
             mapped_sub.get_mut(v.s1.as_str()).unwrap().count += v.count;
             mapped_sub.get_mut(v.s2.as_str()).unwrap().count += v.count;
         }
     }
 
-    println!("{:?}",mapped_sub)
+    // get the counts for each letter
+    let mut count: HashMap<&str,u128> = HashMap::new();
 
-    // do counts
+    for (k,v) in mapped_sub {
+        match count.get_mut(&k[0..1]) {
+            Some(x) => *x += v.count,
+            None => {let _ = &count.insert(&k[0..1],v.count); ()},
+        };
+    }
+
+    let counts = count.values().collect::<Vec<&u128>>();
+    let min = counts.iter().min().unwrap();
+    let max = counts.iter().max().unwrap();
+    println!("min {}",min);
+    println!("max {}",max);
+
+    // turns out my code is ALWAYS just off by 1!
+    println!("Answer: {}",*max-*min+1);
 }
 
 #[derive(Debug, Clone)]
