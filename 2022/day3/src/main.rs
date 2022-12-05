@@ -23,11 +23,12 @@ fn pt1(l: Vec<&str>) -> u32 {
     })
 }
 
-fn pt2(mut l: Vec<&str>) -> u32 {
+fn pt2(l: Vec<&str>) -> u32 {
     let mut counter = 0;
     let mut strings = Vec::new();
     let mut sum = 0;
-    while let Some(s) = l.pop() {
+    let mut tmp = l.iter();
+    while let Some(s) = tmp.next() {
         strings.push(s);
         counter += 1;
         if counter == 3 {
